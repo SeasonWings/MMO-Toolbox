@@ -1,0 +1,28 @@
+{
+  "Marco": [
+    {
+      "id": 0,
+      "MarcoDelay": 2,
+      "key": "a",
+      "keyCode": 65
+    },
+    {
+      "id": 1,
+      "MarcoDelay": 4,
+      "key": "b",
+      "keyCode": 66
+    },
+    {
+      "id": 2,
+      "MarcoDelay": 6,
+      "key": "c",
+      "keyCode": 67
+    }
+  ],
+  "EntryKey": {
+    "key": "d",
+    "keyCode": 68
+  },
+  "runningDelay": 3,
+  "loop": 1
+}
