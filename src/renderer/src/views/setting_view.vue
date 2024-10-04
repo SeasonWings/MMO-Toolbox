@@ -1,73 +1,67 @@
 <script>
+import Back_btn from '../components/back_btn.vue'
+import { SaveOutlined } from '@ant-design/icons-vue'
+import { message } from 'ant-design-vue'
+
 export default {
-  data(){
+  components: { Back_btn, SaveOutlined},
+  data() {
     return {
-      selectedKeys: ['1']
-    }
-  },
-  methods:{
-    Check_SelectedKeys(){
-      let router_end = window.location.href.split("/").pop()
-      if (router_end === 'jx3setting'){
-        this.selectedKeys = ['1']
-      }else if (router_end === 'ff14setting'){
-        this.selectedKeys = ['2']
-      }
+      config: ''
     }
   },
   mounted() {
-    document.addEventListener("click", this.Check_SelectedKeys)
-    document.addEventListener("scroll", this.Check_SelectedKeys)
-    document.addEventListener("mouseover", this.Check_SelectedKeys)
-    this.Check_SelectedKeys()
+    this.ipc_get_config()
   },
-  unmounted() {
-    document.removeEventListener("click", this.Check_SelectedKeys)
-    document.removeEventListener("scroll", this.Check_SelectedKeys)
-    document.removeEventListener("mouseover", this.Check_SelectedKeys)
+  methods: {
+    async ipc_get_config() {
+      this.isLoading = true
+      this.config = await window.electron.ipcRenderer.invoke('get_config')
+      this.isLoading = false
+    },
+    async ipc_put_config() {
+      this.isLoading = true
+      console.log(this.config)
+      await window.electron.ipcRenderer.invoke('put_config', {
+        jx3_path:this.config.jx3_path,
+        jx3_backup_path:this.config.jx3_backup_path,
+      })
+      this.isLoading = false
+      message.success('保存设置成功！', 3);
+    }
   }
 }
 </script>
 
 <template>
-  <div class="auto_shengchan">
+  <div class="setting">
+    <div class="btn_back">
+      <Back_btn></Back_btn>
+    </div>
     <div class="setting_bak">
-      <a-layout-header>
-        <div class="logo" />
-        <a-menu
-          v-model:selectedKeys="selectedKeys"
-          theme="light"
-          mode="horizontal"
-          style="height: 50px; margin-top: -20px; margin-left: 10px"
-        >
-          <router-link to="/setting/jx3setting">
-            <a-menu-item key="1" style="width: 150px">
-              <div class="selected">
-                <img src="./setting_view/svg/jx3box_logo.svg" class="logo" />
-                <div class="antitext" style="margin: -5px 0 0 10px; color: black">JX3设定</div>
-              </div>
-            </a-menu-item>
-          </router-link>
-
-          <router-link to="/setting/ff14setting">
-            <a-menu-item key="2" style="width: 160px" hidden="hidden">
-              <div class="selected">
-                <img src="./setting_view/svg/FinalFantasy_XIV_logo.svg" class="logo" />
-                <div class="antitext" style="margin: -5px 0 0 10px; color: black">FF14设定</div>
-              </div>
-            </a-menu-item>
-          </router-link>
-
-        </a-menu>
-      </a-layout-header>
-
-      <router-view></router-view>
+      <div class="setting_list">
+        <div style="padding: 30px 0 0 18px; width: 100%; display: flex">
+          <div style="padding-top: 3px">JX3游戏目录(SeasunGame文件夹)：</div>
+          <a-input v-model:value="this.config.jx3_path" style="width: 480px; height: 26px"></a-input>
+        </div>
+      </div>
+      <div class="setting_list">
+        <div style="padding: 30px 0 0 18px; width: 100%; display: flex">
+          <div style="padding-top: 3px">自定义备份文件目录：</div>
+          <a-input v-model:value="this.config.jx3_backup_path" style="width: 585px; height: 26px"></a-input>
+        </div>
+      </div>
+      <a-tooltip title="保存">
+        <a-button class="submit" type="dashed" shape="circle" @click="ipc_put_config">
+          <SaveOutlined style="font-size: 30px"/>
+        </a-button>
+      </a-tooltip>
     </div>
   </div>
 </template>
 
 <style scoped>
-.auto_shengchan {
+.setting {
   padding-top: 5%;
   padding-left: 1%;
   display: flex;
@@ -76,8 +70,11 @@ export default {
   background-color: white;
   border-radius: 10px;
   width: 830px;
-  height: 570px;
-  margin-left: 27px;
+  height: 575px;
+}
+.btn_back {
+  width: 36px;
+  height: 36px;
 }
 .setting_list {
   width: 790px;
@@ -86,15 +83,9 @@ export default {
   border-radius: 10px;
   margin: 20px 0 0 20px;
 }
-.selected {
-  display: flex;
-  font-size: 20px;
-  margin-left: 18px;
-}
-.logo {
-  height: 25px;
-  width: 25px;
-  margin-top: 5px;
-  color: black;
+.submit {
+  width: 50px;
+  height: 50px;
+  margin: 300px 0 0 750px;
 }
 </style>

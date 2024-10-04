@@ -2,7 +2,7 @@ const fs = require('fs')
 const tar = require('tar-fs')
 const crypto = require('crypto')
 const path = require('path')
-const rimraf = require('rimraf')
+const rimraf = require('rimraf');
 
 /**
  * 打包并加密文件夹
@@ -72,10 +72,12 @@ export function add_jx3_user_data(sourceFolder, targetFolder, outputFile) {
 }
 export function put_jx3_user_data(encryptedFile, encryptFolder) {
   try {
-    rimraf.sync(encryptFolder)
+    rimraf.sync(encryptFolder);
     decryptAndExtractFile(encryptedFile, encryptFolder)
     return { code: 1, msg: 'success' }
   } catch (err) {
     return { code: 0, msg: '生成该角色的键位配置文件失败！错误信息：' + err }
   }
 }
+
+

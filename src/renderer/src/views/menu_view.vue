@@ -1,44 +1,22 @@
 <script>
-import { message } from 'ant-design-vue'
-import { SettingOutlined, QuestionOutlined } from '@ant-design/icons-vue'
-
 export default {
-  components: { SettingOutlined, QuestionOutlined },
+  setup(){
+
+  },
   data() {
     return {
       open: false,
-      isLoading: false,
-      // tour
-      tour_open: false,
-      steps: [
-        {
-          title: '如你所见',
-          description: '这里只是单纯的选择游戏分类，右下角为工具栏，包含设定和帮助等',
-        }
-      ]
+      isLoading: false
     }
   },
   methods: {
-    async query_jx3_path() {
-      const config = await window.electron.ipcRenderer.invoke('get_config' )
-      console.log(config)
-      if (!config.jx3_path){
-        const jx3_reg_path = await window.electron.ipcRenderer.invoke('query_jx3_path')
-        if (jx3_reg_path.code === 1){
-          await window.electron.ipcRenderer.invoke('put_config', {
-            jx3_path: jx3_reg_path.msg.split('SeasunGame')[0] + "SeasunGame",
-            jx3_backup_path: config.jx3_backup_path,
-          })
-          message.success('获取JX3游戏目录成功', 2);
-        }else {
-          message.warning('自动获取JX3游戏安装目录失败！请前往设定页手动填写路径', 3);
-        }
-      }
+    handleOk() {
+      this.open = false
+    },
+    showModal() {
+      this.open = true
     },
   },
-  mounted() {
-    this.query_jx3_path()
-  }
 }
 </script>
 
@@ -53,57 +31,62 @@ export default {
 <!--  </div>-->
 
   <div class="menu_card_box">
-    <div class="menu_card_row antitext" style="padding-top: 30px">
-      <div>
-        <router-link to="/jx3_tools">
-          <a-card hoverable class="menu_card icon">
-            <img src="./setting_view/svg/jx3box_logo.svg" class="logo" />
-          </a-card>
-        </router-link>
-        <div class="card_font">
-          <p style="margin: -30px 0 0 26px; font-size: 16px;">JX3</p>
-        </div>
-      </div>
+    <div class="menu_card_row" style="padding-top: 30px">
+      <router-link to="/find_jx3_user">
+        <a-card hoverable class="menu_card icon">
+          <p class="card_font" style="margin: -20px 0 0 0">备份数据</p>
+        </a-card>
+      </router-link>
 
-      <div>
-        <router-link to="/ff14_tools">
-          <a-card hoverable class="menu_card icon">
-            <img src="./setting_view/svg/FinalFantasy_XIV_logo.svg" class="logo" />
-          </a-card>
-        </router-link>
-        <div class="card_font">
-          <p style="margin: -30px 0 0 21px; font-size: 16px;">FF14</p>
-        </div>
-      </div>
-
+      <a-card hoverable class="menu_card icon">
+        <p style="font-size: 18px">这是两个占位按钮</p>
+      </a-card>
+      <a-card hoverable class="menu_card icon">
+        <p style="font-size: 18px">按下也没有用(</p>
+      </a-card>
+      <router-link to="/setting">
+        <a-card hoverable class="menu_card icon">
+          <p class="card_font" style="margin: 5px 0 0 0">设定</p>
+        </a-card>
+      </router-link>
 
       <router-view></router-view>
-      <div class="toolbar">
-        <a-tooltip title="设定">
-          <router-link to="/setting">
-            <a-button class="submit" type="dashed" shape="circle">
-              <SettingOutlined style="font-size: 29px"/>
-            </a-button>
-          </router-link>
-        </a-tooltip>
-        <a-tooltip title="帮帮忙">
-          <a-button class="submit" type="dashed" shape="circle" @click="this.tour_open = true">
-            <QuestionOutlined style="font-size: 29px"/>
-          </a-button>
-        </a-tooltip>
-      </div>
     </div>
+
+    <!--    <div class="menu_card_row">-->
+    <!--      <a-card hoverable class="menu_card">-->
+    <!--        <p>Card content</p>-->
+    <!--      </a-card>-->
+    <!--      <a-card hoverable class="menu_card">-->
+    <!--        <p>Card content</p>-->
+    <!--      </a-card>-->
+    <!--      <a-card hoverable class="menu_card">-->
+    <!--        <p>Card content</p>-->
+    <!--      </a-card>-->
+    <!--      <a-card hoverable class="menu_card">-->
+    <!--        <p>Card content</p>-->
+    <!--      </a-card>-->
+    <!--    </div>-->
+    <!--    <div class="menu_card_row">-->
+    <!--      <a-card hoverable class="menu_card">-->
+    <!--        <p>Card content</p>-->
+    <!--      </a-card>-->
+    <!--      <a-card hoverable class="menu_card">-->
+    <!--        <p>Card content</p>-->
+    <!--      </a-card>-->
+    <!--      <a-card hoverable class="menu_card">-->
+    <!--        <p>Card content</p>-->
+    <!--      </a-card>-->
+    <!--      <a-card hoverable class="menu_card">-->
+    <!--        <p>Card content</p>-->
+    <!--      </a-card>-->
+    <!--    </div>-->
   </div>
-  <a-tour
-    :open="tour_open"
-    :steps="steps"
-    @close="this.tour_open = false"
-  />
 </template>
 
 <style>
 body {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(to right, #eafbf9 0%, #f3ebf1 80%);
 }
 /* 滚动条整体样式 */
 ::-webkit-scrollbar {
@@ -128,6 +111,22 @@ body {
 /* 当鼠标悬停在滑块上时 */
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555; /* 鼠标悬停时的颜色 */
+}
+.top_bar {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  width: 100%;
+  height: 35px; /* 高度自行调整 */
+  -webkit-app-region: drag; /* 拖拽 */
+  background-image: linear-gradient(to right, #c0fff9 0%, #ffd4e2 80%);
+  display: flex;
+  justify-content: flex-end;
+}
+.top_bar_tooltip {
+  font-size: 25px;
+  margin: 5px;
+  -webkit-app-region: no-drag;
 }
 
 @keyframes rotate-icon {
@@ -165,27 +164,6 @@ body {
   justify-content: space-around;
 }
 .card_font {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  width: 50%;
-  margin-left: 28px;
-}
-/*工具栏部分*/
-.submit {
-  width: 40px;
-  height: 40px;
-  margin: 5px;
-}
-.toolbar {
-  position: fixed;
-  background-color: rgba(0,0,0,0.1);
-  border-radius: 25px;
-  margin: 515px 0 0 700px;
-}
-
-.logo {
-  height: 100px;
-  width: 100px;
-  margin: -12px 0 0 -12px;
+  font-size: 36px;
 }
 </style>
