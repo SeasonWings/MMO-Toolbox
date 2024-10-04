@@ -2,10 +2,12 @@ import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { get_jx3_user } from './tools/find_jx3_user'
-import { get_backup_config, get_config, put_config } from './tools/read_write_config'
+import { get_jx3_user } from './tools/jx3_find_user'
+import { get_backup_config, get_config, get_json, put_config, put_json } from './tools/read_write_config'
 import { add_jx3_user_data, put_jx3_user_data } from './tools/file_crypto'
-import { delete_jx3_userdata, search_jx3_userdata } from './tools/jx3bak_manager'
+import { delete_jx3_userdata, search_jx3_userdata } from './tools/jx3_bak_manager'
+import { queryjx3path } from './tools/jx3_find_reg_path'
+import { ff14_shengchan_script } from './tools/ff14_auto_shengchan'
 
 function createWindow() {
   // Create the browser window.
@@ -40,24 +42,35 @@ function createWindow() {
   ipcMain.on('minimize_windows', function () {
     mainWindow.minimize()
   })
+  // 切换置顶
+  ipcMain.handle('toggle_on_top', async () => {
+    const currentState = mainWindow.isAlwaysOnTop()
+    mainWindow.setAlwaysOnTop(!currentState)
+    return !currentState // 返回新的置顶状态
+  })
+  // 取消置顶
+  ipcMain.handle('cancel_on_top', async () => {
+    if (mainWindow.isAlwaysOnTop()) {
+      mainWindow.setAlwaysOnTop(false);
+    }
+  })
   //查询jx3角色数据
   ipcMain.handle('find_jx3_user', async () => {
     const path = await get_config()
     return await get_jx3_user(path.jx3_path)
   })
-  //备份角色信息
+  //添加jx3角色信息
   ipcMain.handle('add_jx3_user_data', async (event, arg) => {
     return add_jx3_user_data(arg.src_path, arg.bak_path, arg.file_name)
   })
-  //使用备份的角色信息
+  //使用备份的jx3角色信息
   ipcMain.handle('use_jx3_user_data', async (event, arg) => {
     const path = await get_config()
     const encryptedFile = path.jx3_backup_path + '\\' + arg.folder + '\\' + arg.name
     return put_jx3_user_data(encryptedFile, arg.dir)
   })
-  //备份角色信息
+  //备份jx3角色信息
   ipcMain.handle('search_jx3_user_data', async (event, arg) => {
-
     return search_jx3_userdata(arg.dir, arg.keywords)
   })
   //删除角色信息备份
@@ -68,6 +81,15 @@ function createWindow() {
   ipcMain.handle('read_jx3_user_backup', async (event, arg) => {
     return get_backup_config(arg.username)
   })
+  //寻找jx3安装目录
+  ipcMain.handle('query_jx3_path', async () => {
+    return await queryjx3path()
+  })
+  //FF14自动生产
+  ipcMain.handle('ff14_auto_shengchan', async () => {
+    return ff14_shengchan_script()
+  })
+
   //获取config
   ipcMain.handle('get_config', async function () {
     return await get_config()
@@ -75,6 +97,14 @@ function createWindow() {
   //上传config
   ipcMain.handle('put_config', async (event, arg) => {
     return put_config(arg)
+  })
+  //获取json
+  ipcMain.handle('get_json', async (event, arg) => {
+    return await get_json(arg.name)
+  })
+  //上传json
+  ipcMain.handle('put_json', async (event, arg) => {
+    return put_json(arg.json, arg.name)
   })
 
   // HMR for renderer base on electron-vite cli.

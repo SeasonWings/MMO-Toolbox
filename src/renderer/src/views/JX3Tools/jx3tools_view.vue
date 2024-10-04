@@ -1,9 +1,11 @@
 <script>
-import { message } from 'ant-design-vue'
-import { SettingOutlined, QuestionOutlined } from '@ant-design/icons-vue'
+import { LeftOutlined, QuestionOutlined } from '@ant-design/icons-vue'
 
 export default {
-  components: { SettingOutlined, QuestionOutlined },
+  components: { LeftOutlined, QuestionOutlined },
+  setup(){
+
+  },
   data() {
     return {
       open: false,
@@ -13,78 +15,59 @@ export default {
       steps: [
         {
           title: '如你所见',
-          description: '这里只是单纯的选择游戏分类，右下角为工具栏，包含设定和帮助等',
+          description: '这里只是更加单纯的选择指定游戏里支持的工具,目前仅支持管理数据，同步数据还在开发中！（鸽',
         }
       ]
     }
   },
   methods: {
-    async query_jx3_path() {
-      const config = await window.electron.ipcRenderer.invoke('get_config' )
-      console.log(config)
-      if (!config.jx3_path){
-        const jx3_reg_path = await window.electron.ipcRenderer.invoke('query_jx3_path')
-        if (jx3_reg_path.code === 1){
-          await window.electron.ipcRenderer.invoke('put_config', {
-            jx3_path: jx3_reg_path.msg.split('SeasunGame')[0] + "SeasunGame",
-            jx3_backup_path: config.jx3_backup_path,
-          })
-          message.success('获取JX3游戏目录成功', 2);
-        }else {
-          message.warning('自动获取JX3游戏安装目录失败！请前往设定页手动填写路径', 3);
-        }
-      }
-    },
   },
   mounted() {
-    this.query_jx3_path()
   }
 }
 </script>
 
 <template>
-<!--  <div class="loading" v-show="isLoading">-->
-<!--    <div class="loading_bak">-->
-<!--      <div class="loading_gif">-->
-<!--        <img src="../assets/loading/dog_loading.svg">-->
-<!--      </div>-->
-<!--      <div class="loading_font">正在加载中...</div>-->
-<!--    </div>-->
-<!--  </div>-->
+  <!--  <div class="loading" v-show="isLoading">-->
+  <!--    <div class="loading_bak">-->
+  <!--      <div class="loading_gif">-->
+  <!--        <img src="../assets/loading/dog_loading.svg">-->
+  <!--      </div>-->
+  <!--      <div class="loading_font">正在加载中...</div>-->
+  <!--    </div>-->
+  <!--  </div>-->
 
-  <div class="menu_card_box">
-    <div class="menu_card_row antitext" style="padding-top: 30px">
+  <div class="menu_card_box antitext">
+    <div class="menu_card_row" style="padding-top: 30px">
+
       <div>
-        <router-link to="/jx3_tools">
+        <router-link to="/find_jx3_user">
           <a-card hoverable class="menu_card icon">
-            <img src="./setting_view/svg/jx3box_logo.svg" class="logo" />
+            <img src="./assets/svg/wanling.svg" class="logo" />
           </a-card>
         </router-link>
         <div class="card_font">
-          <p style="margin: -30px 0 0 26px; font-size: 16px;">JX3</p>
+          <p style="margin: -30px 0 0 5px; font-size: 16px;">管理数据</p>
         </div>
       </div>
+
+
 
       <div>
-        <router-link to="/ff14_tools">
-          <a-card hoverable class="menu_card icon">
-            <img src="./setting_view/svg/FinalFantasy_XIV_logo.svg" class="logo" />
-          </a-card>
-        </router-link>
+        <a-card hoverable class="menu_card icon">
+          <img src="./assets/svg/penglai.svg" class="logo" />
+        </a-card>
         <div class="card_font">
-          <p style="margin: -30px 0 0 21px; font-size: 16px;">FF14</p>
+          <p style="margin: -30px 0 0 5px; font-size: 16px;">同步数据</p>
         </div>
       </div>
-
 
       <router-view></router-view>
       <div class="toolbar">
-        <a-tooltip title="设定">
-          <router-link to="/setting">
-            <a-button class="submit" type="dashed" shape="circle">
-              <SettingOutlined style="font-size: 29px"/>
-            </a-button>
-          </router-link>
+        <a-tooltip title="上一级">
+          <a-button class="submit" type="dashed" shape="circle">
+            <LeftOutlined style="font-size: 29px" @click="$router.go(-1)"/>
+          </a-button>
         </a-tooltip>
         <a-tooltip title="帮帮忙">
           <a-button class="submit" type="dashed" shape="circle" @click="this.tour_open = true">
@@ -165,27 +148,20 @@ body {
   justify-content: space-around;
 }
 .card_font {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  width: 50%;
-  margin-left: 28px;
+  font-size: 36px;
+  width: 60%;
 }
 /*工具栏部分*/
 .submit {
   width: 40px;
   height: 40px;
   margin: 5px;
+
 }
 .toolbar {
   position: fixed;
   background-color: rgba(0,0,0,0.1);
   border-radius: 25px;
   margin: 515px 0 0 700px;
-}
-
-.logo {
-  height: 100px;
-  width: 100px;
-  margin: -12px 0 0 -12px;
 }
 </style>
