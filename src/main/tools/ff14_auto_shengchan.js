@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const configFilePath = path.join('config')
-const {keyboard, Key} = require("@nut-tree/nut-js");
+const { keyboard } = require('@nut-tree/nut-js')
 
 // FUCK U SBJS
 const KeyCodeTable = {
@@ -86,7 +86,7 @@ function VK_to_FuckCode(VK) {
 }
 
 function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 async function press_keyboard() {
@@ -95,23 +95,22 @@ async function press_keyboard() {
     const config = JSON.parse(data)
 
     for (let i = 0; i < 4; i++) {
-      await keyboard.pressKey(VK_to_FuckCode(config.EntryKey.keyCode));
-      await keyboard.releaseKey(VK_to_FuckCode(config.EntryKey.keyCode));
+      await keyboard.pressKey(VK_to_FuckCode(config.EntryKey.keyCode))
+      await keyboard.releaseKey(VK_to_FuckCode(config.EntryKey.keyCode))
       await delay(400)
     }
     for (let item of config.Marco) {
       await delay(config.runningDelay * 1000)
-      await keyboard.pressKey(VK_to_FuckCode(item.keyCode));
-      await keyboard.releaseKey(VK_to_FuckCode(item.keyCode));
+      await keyboard.pressKey(VK_to_FuckCode(item.keyCode))
+      await keyboard.releaseKey(VK_to_FuckCode(item.keyCode))
       await delay(item.MarcoDelay * 1000)
     }
 
     await delay(config.runningDelay * 1000)
 
-    return {code: 1, msg: 'success'}
-
+    return { code: 1, msg: 'success' }
   } catch (err) {
-    return {code: 0, msg: err}
+    return { code: 0, msg: err }
   }
 }
 

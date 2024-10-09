@@ -1,16 +1,9 @@
 {
-  "Marco": [
-    {
-      "id": 0,
-      "MarcoDelay": 10,
-      "key": "1",
-      "keyCode": 49
-    }
-  ],
+  "Marco": [],
   "EntryKey": {
     "key": "2",
     "keyCode": 50
   },
   "runningDelay": 1,
-  "loop": 2
+  "loop": 0
 }

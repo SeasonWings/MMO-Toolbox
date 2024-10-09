@@ -3,7 +3,13 @@ import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { get_jx3_user } from './tools/jx3_find_user'
-import { get_backup_config, get_config, get_json, put_config, put_json } from './tools/read_write_config'
+import {
+  get_backup_config,
+  get_config,
+  get_json,
+  put_config,
+  put_json
+} from './tools/read_write_config'
 import { add_jx3_user_data, put_jx3_user_data } from './tools/file_crypto'
 import { delete_jx3_userdata, search_jx3_userdata } from './tools/jx3_bak_manager'
 import { queryjx3path } from './tools/jx3_find_reg_path'
@@ -51,7 +57,7 @@ function createWindow() {
   // 取消置顶
   ipcMain.handle('cancel_on_top', async () => {
     if (mainWindow.isAlwaysOnTop()) {
-      mainWindow.setAlwaysOnTop(false);
+      mainWindow.setAlwaysOnTop(false)
     }
   })
   //查询jx3角色数据

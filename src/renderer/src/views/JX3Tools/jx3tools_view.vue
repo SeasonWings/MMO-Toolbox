@@ -3,9 +3,7 @@ import { LeftOutlined, QuestionOutlined } from '@ant-design/icons-vue'
 
 export default {
   components: { LeftOutlined, QuestionOutlined },
-  setup(){
-
-  },
+  setup() {},
   data() {
     return {
       open: false,
@@ -15,15 +13,14 @@ export default {
       steps: [
         {
           title: '如你所见',
-          description: '这里只是更加单纯的选择指定游戏里支持的工具,目前仅支持管理数据，同步数据还在开发中！（鸽',
+          description:
+            '这里只是更加单纯的选择指定游戏里支持的工具,目前仅支持管理数据，同步数据还在开发中！（鸽'
         }
       ]
     }
   },
-  methods: {
-  },
-  mounted() {
-  }
+  mounted() {},
+  methods: {}
 }
 </script>
 
@@ -39,7 +36,6 @@ export default {
 
   <div class="menu_card_box antitext">
     <div class="menu_card_row" style="padding-top: 30px">
-
       <div>
         <router-link to="/find_jx3_user">
           <a-card hoverable class="menu_card icon">
@@ -47,18 +43,16 @@ export default {
           </a-card>
         </router-link>
         <div class="card_font">
-          <p style="margin: -30px 0 0 5px; font-size: 16px;">管理数据</p>
+          <p style="margin: -30px 0 0 5px; font-size: 16px">管理数据</p>
         </div>
       </div>
-
-
 
       <div>
         <a-card hoverable class="menu_card icon">
           <img src="./assets/svg/penglai.svg" class="logo" />
         </a-card>
         <div class="card_font">
-          <p style="margin: -30px 0 0 5px; font-size: 16px;">同步数据</p>
+          <p style="margin: -30px 0 0 5px; font-size: 16px">同步数据</p>
         </div>
       </div>
 
@@ -66,25 +60,21 @@ export default {
       <div class="toolbar">
         <a-tooltip title="上一级">
           <a-button class="submit" type="dashed" shape="circle">
-            <LeftOutlined style="font-size: 29px" @click="$router.go(-1)"/>
+            <LeftOutlined style="font-size: 29px" @click="$router.go(-1)" />
           </a-button>
         </a-tooltip>
         <a-tooltip title="帮帮忙">
-          <a-button class="submit" type="dashed" shape="circle" @click="this.tour_open = true">
-            <QuestionOutlined style="font-size: 29px"/>
+          <a-button class="submit" type="dashed" shape="circle" @click="tour_open = true">
+            <QuestionOutlined style="font-size: 29px" />
           </a-button>
         </a-tooltip>
       </div>
     </div>
   </div>
-  <a-tour
-    :open="tour_open"
-    :steps="steps"
-    @close="this.tour_open = false"
-  />
+  <a-tour :open="tour_open" :steps="steps" @close="tour_open = false" />
 </template>
 
-<style>
+<style scoped>
 body {
   background-color: rgba(0, 0, 0, 0.1);
 }
@@ -113,31 +103,6 @@ body {
   background-color: #555; /* 鼠标悬停时的颜色 */
 }
 
-@keyframes rotate-icon {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(8deg);
-  }
-}
-
-.icon {
-  display: inline-block; /* 确保可以应用动画 */
-}
-
-.icon:hover {
-  animation: rotate-icon 0.2s linear forwards; /* 应用动画 */
-}
-
-.menu_card {
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width: 130px;
-  height: 130px;
-  background-color: rgb(255, 212, 226);
-  border: 5px solid #ffffff;
-}
 .menu_card_box {
   height: 600px;
   display: block;
@@ -156,11 +121,10 @@ body {
   width: 40px;
   height: 40px;
   margin: 5px;
-
 }
 .toolbar {
   position: fixed;
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.1);
   border-radius: 25px;
   margin: 515px 0 0 700px;
 }

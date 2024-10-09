@@ -13,92 +13,80 @@ export default {
       steps: [
         {
           title: '如你所见',
-          description: '这里只是单纯的选择游戏分类，右下角为工具栏，包含设定和帮助等',
+          description: '这里只是单纯的选择游戏分类，右下角为工具栏，包含设定和帮助等'
         }
       ]
     }
   },
-  methods: {
-    async query_jx3_path() {
-      const config = await window.electron.ipcRenderer.invoke('get_config' )
-      console.log(config)
-      if (!config.jx3_path){
-        const jx3_reg_path = await window.electron.ipcRenderer.invoke('query_jx3_path')
-        if (jx3_reg_path.code === 1){
-          await window.electron.ipcRenderer.invoke('put_config', {
-            jx3_path: jx3_reg_path.msg.split('SeasunGame')[0] + "SeasunGame",
-            jx3_backup_path: config.jx3_backup_path,
-          })
-          message.success('获取JX3游戏目录成功', 2);
-        }else {
-          message.warning('自动获取JX3游戏安装目录失败！请前往设定页手动填写路径', 3);
-        }
-      }
-    },
-  },
   mounted() {
     this.query_jx3_path()
+  },
+  methods: {
+    async query_jx3_path() {
+      const config = await window.electron.ipcRenderer.invoke('get_config')
+      console.log(config)
+      if (!config.jx3_path) {
+        const jx3_reg_path = await window.electron.ipcRenderer.invoke('query_jx3_path')
+        if (jx3_reg_path.code === 1) {
+          await window.electron.ipcRenderer.invoke('put_config', {
+            jx3_path: jx3_reg_path.msg.split('SeasunGame')[0] + 'SeasunGame',
+            jx3_backup_path: config.jx3_backup_path
+          })
+          message.success('获取JX3游戏目录成功', 2)
+        } else {
+          message.warning('自动获取JX3游戏安装目录失败！请前往设定页手动填写路径', 3)
+        }
+      }
+    }
   }
 }
 </script>
 
 <template>
-<!--  <div class="loading" v-show="isLoading">-->
-<!--    <div class="loading_bak">-->
-<!--      <div class="loading_gif">-->
-<!--        <img src="../assets/loading/dog_loading.svg">-->
-<!--      </div>-->
-<!--      <div class="loading_font">正在加载中...</div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-  <div class="menu_card_box">
-    <div class="menu_card_row antitext" style="padding-top: 30px">
-      <div>
-        <router-link to="/jx3_tools">
-          <a-card hoverable class="menu_card icon">
-            <img src="./setting_view/svg/jx3box_logo.svg" class="logo" />
-          </a-card>
-        </router-link>
-        <div class="card_font">
-          <p style="margin: -30px 0 0 26px; font-size: 16px;">JX3</p>
-        </div>
-      </div>
-
-      <div>
-        <router-link to="/ff14_tools">
-          <a-card hoverable class="menu_card icon">
-            <img src="./setting_view/svg/FinalFantasy_XIV_logo.svg" class="logo" />
-          </a-card>
-        </router-link>
-        <div class="card_font">
-          <p style="margin: -30px 0 0 21px; font-size: 16px;">FF14</p>
-        </div>
-      </div>
-
-
-      <router-view></router-view>
-      <div class="toolbar">
-        <a-tooltip title="设定">
-          <router-link to="/setting">
-            <a-button class="submit" type="dashed" shape="circle">
-              <SettingOutlined style="font-size: 29px"/>
-            </a-button>
+  <div>
+    <div class="menu_card_box">
+      <div class="menu_card_row antitext" style="padding-top: 30px">
+        <div>
+          <router-link to="/jx3_tools">
+            <a-card hoverable class="menu_card icon">
+              <img src="./setting_view/svg/jx3box_logo.svg" class="logo"  alt="error"/>
+            </a-card>
           </router-link>
-        </a-tooltip>
-        <a-tooltip title="帮帮忙">
-          <a-button class="submit" type="dashed" shape="circle" @click="this.tour_open = true">
-            <QuestionOutlined style="font-size: 29px"/>
-          </a-button>
-        </a-tooltip>
+          <div class="card_font">
+            <p style="margin: -30px 0 0 21px; font-size: 16px">JX3</p>
+          </div>
+        </div>
+
+        <div>
+          <router-link to="/ff14_tools">
+            <a-card hoverable class="menu_card icon">
+              <img src="./setting_view/svg/FinalFantasy_XIV_logo.svg" class="logo"  alt="error"/>
+            </a-card>
+          </router-link>
+          <div class="card_font">
+            <p style="margin: -30px 0 0 16px; font-size: 16px">FF14</p>
+          </div>
+        </div>
+
+        <router-view></router-view>
+        <div class="toolbar">
+          <a-tooltip title="设定">
+            <router-link to="/setting">
+              <a-button class="submit" type="dashed" shape="circle">
+                <SettingOutlined style="font-size: 29px" />
+              </a-button>
+            </router-link>
+          </a-tooltip>
+          <a-tooltip title="帮帮忙">
+            <a-button class="submit" type="dashed" shape="circle" @click="tour_open = true">
+              <QuestionOutlined style="font-size: 29px" />
+            </a-button>
+          </a-tooltip>
+        </div>
       </div>
     </div>
+    <a-tour :open="tour_open" :steps="steps" @close="tour_open = false" />
   </div>
-  <a-tour
-    :open="tour_open"
-    :steps="steps"
-    @close="this.tour_open = false"
-  />
 </template>
 
 <style>
@@ -141,10 +129,15 @@ body {
 
 .icon {
   display: inline-block; /* 确保可以应用动画 */
+  transition:
+    height 0.2s,
+    box-shadow 0.2s,
+    transform 0.4s;
 }
 
 .icon:hover {
-  animation: rotate-icon 0.2s linear forwards; /* 应用动画 */
+  /*animation: rotate-icon 0.2s linear forwards; /* 应用动画 */
+  transform: scale(1.03);
 }
 
 .menu_card {
@@ -152,7 +145,7 @@ body {
   margin-bottom: 40px;
   width: 130px;
   height: 130px;
-  background-color: rgb(255, 212, 226);
+  background: linear-gradient(220.55deg, rgba(255, 220, 153, 0.5) 0%, rgba(255, 98, 192, 0.5) 100%);
   border: 5px solid #ffffff;
 }
 .menu_card_box {
@@ -168,7 +161,7 @@ body {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   width: 50%;
-  margin-left: 28px;
+  margin-left: 33px;
 }
 /*工具栏部分*/
 .submit {
@@ -178,7 +171,7 @@ body {
 }
 .toolbar {
   position: fixed;
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.1);
   border-radius: 25px;
   margin: 515px 0 0 700px;
 }

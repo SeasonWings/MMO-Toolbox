@@ -3,9 +3,7 @@ import { LeftOutlined, QuestionOutlined } from '@ant-design/icons-vue'
 
 export default {
   components: { QuestionOutlined, LeftOutlined },
-  setup(){
-
-  },
+  setup() {},
   data() {
     return {
       open: false,
@@ -15,15 +13,14 @@ export default {
       steps: [
         {
           title: '如你所见',
-          description: '这里只是更加单纯的选择指定游戏里支持的工具,目前仅支持自动生产脚本，没有更多了！',
+          description:
+            '这里只是更加单纯的选择指定游戏里支持的工具,目前仅支持自动生产脚本，没有更多了！'
         }
       ]
     }
   },
-  methods: {
-  },
-  mounted() {
-  }
+  mounted() {},
+  methods: {}
 }
 </script>
 
@@ -39,15 +36,14 @@ export default {
 
   <div class="menu_card_box antitext">
     <div class="menu_card_row" style="padding-top: 30px">
-
       <div>
         <router-link to="/ff14_autoshengchan">
           <a-card hoverable class="menu_card icon">
-            <img src="./assets/img/blacksmith.png" class="logo"/>
+            <img src="./assets/img/blacksmith.png" class="logo" />
           </a-card>
         </router-link>
         <div class="card_font">
-          <p style="margin: -30px 0 0 7px; font-size: 16px;">自动生产</p>
+          <p style="margin: -30px 0 0 7px; font-size: 16px">自动生产</p>
         </div>
       </div>
 
@@ -55,26 +51,21 @@ export default {
       <div class="toolbar">
         <a-tooltip title="上一级">
           <a-button class="submit" type="dashed" shape="circle">
-            <LeftOutlined style="font-size: 29px" @click="$router.go(-1)"/>
+            <LeftOutlined style="font-size: 29px" @click="$router.go(-1)" />
           </a-button>
         </a-tooltip>
         <a-tooltip title="帮帮忙">
-          <a-button class="submit" type="dashed" shape="circle" @click="this.tour_open = true">
-            <QuestionOutlined style="font-size: 29px"/>
+          <a-button class="submit" type="dashed" shape="circle" @click="tour_open = true">
+            <QuestionOutlined style="font-size: 29px" />
           </a-button>
         </a-tooltip>
       </div>
     </div>
   </div>
-  <a-tour
-    :open="tour_open"
-    :steps="steps"
-    @close="this.tour_open = false"
-  />
+  <a-tour :open="tour_open" :steps="steps" @close="tour_open = false" />
 </template>
 
-<style>
-
+<style scoped>
 /* 滚动条整体样式 */
 ::-webkit-scrollbar {
   width: 5px; /* 滚动条宽度 */
@@ -100,31 +91,6 @@ export default {
   background-color: #555; /* 鼠标悬停时的颜色 */
 }
 
-@keyframes rotate-icon {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(8deg);
-  }
-}
-
-.icon {
-  display: inline-block; /* 确保可以应用动画 */
-}
-
-.icon:hover {
-  animation: rotate-icon 0.2s linear forwards; /* 应用动画 */
-}
-
-.menu_card {
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width: 130px;
-  height: 130px;
-  background-color: rgb(255, 212, 226);
-  border: 5px solid #ffffff;
-}
 .menu_card_box {
   height: 600px;
   display: block;
@@ -138,7 +104,7 @@ export default {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   width: 60%;
-  margin-left: 33px;
+  margin-left: 28px;
 }
 .logo {
   height: 100px;

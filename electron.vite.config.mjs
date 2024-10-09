@@ -7,7 +7,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
-    publicDir: resolve(__dirname, 'public'),
+    publicDir: resolve(__dirname, 'public')
   },
   preload: {
     plugins: [externalizeDepsPlugin()]
@@ -29,5 +29,4 @@ export default defineConfig({
       ]
     })
   ]
-
 })

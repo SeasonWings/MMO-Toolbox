@@ -18,7 +18,7 @@ export default {
     VerticalAlignBottomOutlined,
     DeleteOutlined,
     PlayCircleOutlined,
-    PauseCircleOutlined,
+    PauseCircleOutlined
   },
   data() {
     return {
@@ -26,7 +26,7 @@ export default {
       start: false,
       keystr: '',
       count: 0,
-      time:{
+      time: {
         marco_time: 0,
         all_marco_time: 0,
         now_time: 0,
@@ -55,45 +55,47 @@ export default {
           title: '宏按键设置',
           description: '添加希望运行的宏所在的快捷键并指定运行时间后，点击"+"按钮添加至宏序列',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/shengchan/step1.png',
-          }),
+            src: 'https://cos.mapleshuzuko.site/HoneyB/shengchan/step1.png'
+          })
         },
         {
           title: '宏序列',
           description: '添加的宏会显示在宏序列中，自左到右代表宏按键执行顺序及各阶段所需时间',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/shengchan/step2.png',
-          }),
+            src: 'https://cos.mapleshuzuko.site/HoneyB/shengchan/step2.png'
+          })
         },
         {
           title: '其他按键设置',
-          description: '如图所示添加确认按键(手柄模式的确认键),宏间隔(两个生产宏的中间缓存时间)以及运行次数',
+          description:
+            '如图所示添加确认按键(手柄模式的确认键),宏间隔(两个生产宏的中间缓存时间)以及运行次数',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/shengchan/step3.png',
-          }),
+            src: 'https://cos.mapleshuzuko.site/HoneyB/shengchan/step3.png'
+          })
         },
         {
           title: '工具栏',
           description: '控制工具启停,从左到右依次为"开启/停止","置顶窗口/取消置顶","帮助"',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/shengchan/step4.png',
-          }),
+            src: 'https://cos.mapleshuzuko.site/HoneyB/shengchan/step4.png'
+          })
         },
         {
           title: '执行进度',
           description: '在开启宏序列后可以看到当前整体运行进度和单个宏运行进度',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/shengchan/step5.png',
-          }),
+            src: 'https://cos.mapleshuzuko.site/HoneyB/shengchan/step5.png'
+          })
         },
         {
           title: '如何使用',
-          description: '设定好上述键位及宏序列后，点击启动，随后返回游戏内点击框选区域然后AFK开始玩手机即可（如果你设置的没问题的话，嗯！',
+          description:
+            '设定好上述键位及宏序列后，点击启动，随后返回游戏内点击框选区域然后AFK开始玩手机即可（如果你设置的没问题的话，嗯！',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/shengchan/step6.png',
-          }),
-        },
-      ],
+            src: 'https://cos.mapleshuzuko.site/HoneyB/shengchan/step6.png'
+          })
+        }
+      ]
     }
   },
   mounted() {
@@ -155,41 +157,44 @@ export default {
       clearInterval(this.marco_time)
 
       for (let i = 5; i > 0; i--) {
-        message.info(i, 1)
+        this.$refs.loop.volume = 0.5
+        await this.$refs.loop.play()
+        message.info('CountDown: ' + i, 1)
         await this.delay(1000)
       }
+      this.$refs.end.volume = 0.2
+      await this.$refs.end.play()
       message.info('GO!', 1)
 
       this.loop = setInterval(async () => {
-
         if (this.time.now_loop === this.Config.loop) {
-          clearInterval(this.loop);
+          clearInterval(this.loop)
         }
-      }, this.calculate_marco_time() * 1000);
+      }, this.calculate_marco_time() * 1000)
 
-      for (let i = 0; i < this.Config.loop  && this.start; i++) {
+      for (let i = 0; i < this.Config.loop && this.start; i++) {
         this.time.now_time = 0
         this.marco_time = setInterval(() => {
-          this.time.now_time++;
-        }, 1000);
+          this.time.now_time++
+        }, 1000)
         await window.electron.ipcRenderer.invoke('ff14_auto_shengchan')
-        clearInterval(this.marco_time);
+        clearInterval(this.marco_time)
         this.time.now_loop++
       }
 
       this.start = false
     },
 
-    calculate_marco_time(){
+    calculate_marco_time() {
       let time = 4
       for (let item of this.Config.Marco) {
-        time += (item.MarcoDelay + this.Config.runningDelay + 0.6)
+        time += item.MarcoDelay + this.Config.runningDelay + 0.6
       }
       time += this.Config.runningDelay
       return time
     },
     delay(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
+      return new Promise((resolve) => setTimeout(resolve, ms))
     },
     // 按下获取键码
     promptForKeyPress(str) {
@@ -233,15 +238,22 @@ export default {
     removeElement(id) {
       this.Config.Marco = this.removeById(this.Config.Marco, id)
       this.put_config()
-    },
-
-  },
+    }
+  }
 }
 </script>
 
 <template>
-  <audio ref="loop" src="/assets/FFXIV_Limit_Break_Charged.mp3" autoplay type="audio/mpeg"></audio>
-  <audio ref="end" src="/assets/FFXIV_Limit_Break_Charged.mp3" type="audio/mpeg"></audio>
+  <audio
+    ref="loop"
+    src="https://cos.mapleshuzuko.site/HoneyB/shengchan/audio/FFXIV_Switch_Target.mp3"
+    type="audio/mpeg"
+  ></audio>
+  <audio
+    ref="end"
+    src="https://cos.mapleshuzuko.site/HoneyB/shengchan/audio/FFXIV_Limit_Break_Charged.mp3"
+    type="audio/mpeg"
+  ></audio>
   <div class="auto_shengchan">
     <div class="setting_bak">
       <div class="setting_list" style="height: 240px; padding-top: 20px">
@@ -358,10 +370,18 @@ export default {
       </div>
       <a-divider />
       <div style="display: flex; flex-direction: column; margin: 0 0 0 20px">
-        <div>宏运行进度:{{this.time.now_loop}}/{{this.Config.loop}}(次)</div>
-        <a-progress :percent="this.time.now_loop/this.Config.loop* 100" :size="[300, 20]" style="width: 600px"/>
-        <div>宏运行时间:{{this.time.now_time}}/{{this.time.marco_time}}(S)</div>
-        <a-progress :percent="this.time.now_time/this.time.marco_time* 100" :size="[300, 20]" style="width: 600px"/>
+        <div>宏运行进度:{{ time.now_loop }}/{{ Config.loop }}(次)</div>
+        <a-progress
+          :percent="(time.now_loop / Config.loop) * 100"
+          :size="[300, 20]"
+          style="width: 600px"
+        />
+        <div>宏运行时间:{{ time.now_time }}/{{ time.marco_time }}(S)</div>
+        <a-progress
+          :percent="(time.now_time / time.marco_time) * 100"
+          :size="[300, 20]"
+          style="width: 600px"
+        />
       </div>
 
       <router-view></router-view>
@@ -394,19 +414,14 @@ export default {
         </a-button>
       </a-tooltip>
       <a-tooltip title="帮帮忙">
-        <a-button class="submit" type="dashed" shape="circle" @click="this.tour_open = true">
+        <a-button class="submit" type="dashed" shape="circle" @click="tour_open = true">
           <QuestionOutlined style="font-size: 29px" />
         </a-button>
       </a-tooltip>
     </div>
   </div>
 
-  <a-tour
-    :open="tour_open"
-    :steps="steps"
-    @close="this.tour_open = false"
-  />
-
+  <a-tour :open="tour_open" :steps="steps" @close="tour_open = false" />
 </template>
 
 <style scoped>

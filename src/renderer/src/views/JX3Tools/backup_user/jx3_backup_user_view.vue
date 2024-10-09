@@ -1,5 +1,4 @@
 <script>
-import Back_btn from '../../../components/back_btn.vue'
 import { message } from 'ant-design-vue'
 import {
   PlusOutlined,
@@ -14,7 +13,6 @@ export default {
   components: {
     LeftOutlined,
     QuestionOutlined,
-    Back_btn,
     PlusOutlined,
     DeleteOutlined,
     CheckCircleOutlined,
@@ -36,43 +34,45 @@ export default {
       steps: [
         {
           title: '备份角色信息',
-          description: '这里是备份角色信息部分功能，目前包括"角色键位&系统设置备份"',
+          description: '这里是备份角色信息部分功能，目前包括"角色键位&系统设置备份"'
         },
         {
           title: '备份角色信息',
           description: '首先你需要确认生成备份账号和使用备份账号的服务器同步选项均为关闭',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/jx3_backup_user/step0.png',
-          }),
+            src: 'https://cos.mapleshuzuko.site/HoneyB/jx3_backup_user/step0.png'
+          })
         },
         {
           title: '备份角色信息',
-          description: '点击框选部分即可选中目标角色，此时角色背景颜色会有所改变',
+          description: '点击框选部分即可选中目标角色，此时角色卡片的背景颜色会有所改变',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/jx3_backup_user/step1.png',
-          }),
+            src: 'https://cos.mapleshuzuko.site/HoneyB/jx3_backup_user/step1.png'
+          })
         },
         {
           title: '备份角色信息',
           description: '在展开的右侧UI中点击框选的"添加"按钮即可生成"角色键位&系统设置备份"',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/jx3_backup_user/step2.png',
-          }),
+            src: 'https://cos.mapleshuzuko.site/HoneyB/jx3_backup_user/step2.png'
+          })
         },
         {
           title: '备份角色信息',
-          description: '如果上一步成功完成则会出现如上卡片，展示了展示了备份角色名以及备份时间等信息，黄色框选按钮为删除本备份，蓝色框选为应用本备份，绿色框选为上传本备份（鸽',
+          description:
+            '如果上一步成功完成则会出现如上卡片，展示了备份角色名以及备份时间等信息，黄色框选按钮为删除本备份，蓝色框选为应用本备份，绿色框选为上传本备份（鸽',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/jx3_backup_user/step3.png',
-          }),
+            src: 'https://cos.mapleshuzuko.site/HoneyB/jx3_backup_user/step3.png'
+          })
         },
         {
           title: '备份角色信息',
-          description: '按照箭头指示点击框选按钮后，在弹出的窗口选择想使用此备份的目标角色，单击确定即可应用',
+          description:
+            '按照箭头指示点击框选按钮后，在弹出的窗口选择想使用此备份的目标角色，单击确定即可应用',
           cover: createVNode('img', {
-            src: 'https://picgo-1304444558.cos.ap-nanjing.myqcloud.com/HoneyB/jx3_backup_user/step4.png',
-          }),
-        },
+            src: 'https://cos.mapleshuzuko.site/HoneyB/jx3_backup_user/step4.png'
+          })
+        }
       ]
     }
   },
@@ -213,7 +213,7 @@ export default {
   <div v-show="isLoading" class="loading">
     <div class="loading_bak">
       <div class="loading_gif">
-        <img src="../../../assets/loading/dog_loading.svg" />
+        <img src="../../../assets/loading/dog_loading.svg"  alt="error"/>
       </div>
       <div class="loading_font">正在加载中...</div>
     </div>
@@ -226,14 +226,14 @@ export default {
         :key="user"
         :class="{ dynamite: isSelect === user }"
         hoverable
-        class="user"
+        class="user icon"
         @click="click_user(user)"
       >
         <div style="font-size: 20px">{{ user.username + '·' + user.area[1] }}</div>
       </a-card>
     </div>
     <div v-if="isSelect" class="user_data">
-      <a-card v-for="data in userbakup" :key="data" hoverable class="data">
+      <a-card v-for="data in userbakup" :key="data" hoverable class="data icon">
         <div style="font-size: 16px; margin-left: -20px; margin-top: -20px">
           {{ data.split('.')[0].split('_')[0] }}
         </div>
@@ -264,7 +264,7 @@ export default {
         </div>
       </a-card>
       <a-tooltip title="新增数据备份">
-        <a-card class="data" hoverable @click="click_add_user_data()">
+        <a-card class="data icon" hoverable @click="click_add_user_data()">
           <div style="font-size: 36px; display: flex; justify-content: center">
             <PlusOutlined />
           </div>
@@ -281,7 +281,9 @@ export default {
       @ok="click_confirm(select_user)"
     >
       <a-select ref="select" v-model:value="select_user" style="width: 200px">
-        <a-select-option v-for="user in userdata" :key="user" :value="user.username">{{user.username }}</a-select-option>
+        <a-select-option v-for="user in userdata" :key="user" :value="user.username">{{
+          user.username
+        }}</a-select-option>
       </a-select>
     </a-modal>
 
@@ -292,29 +294,25 @@ export default {
         </a-button>
       </a-tooltip>
       <a-tooltip title="帮帮忙">
-        <a-button class="submit" type="dashed" shape="circle" @click="this.tour_open = true">
+        <a-button class="submit" type="dashed" shape="circle" @click="tour_open = true">
           <QuestionOutlined style="font-size: 29px" />
         </a-button>
       </a-tooltip>
     </div>
   </div>
-  <a-tour
-    :open="tour_open"
-    :steps="steps"
-    @close="this.tour_open = false"
-  />
+  <a-tour :open="tour_open" :steps="steps" @close="tour_open = false" />
 </template>
 
 <style scoped>
 /* 滚动条整体样式 */
 ::-webkit-scrollbar {
-  width: 0px; /* 滚动条宽度 */
+  width: 0; /* 滚动条宽度 */
   height: 12px; /* 垂直滚动条的高度 */
 }
 
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
-  background-color: #cef3ee; /* 滑块颜色 */
+  background-color: #515151; /* 滑块颜色 */
   border-radius: 10px; /* 滑块圆角 */
   border: 2px solid transparent; /* 滑块边框 */
   background-clip: content-box; /* 确保边框和内边距被包含在背景中 */
@@ -330,6 +328,19 @@ export default {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #dafafb; /* 鼠标悬停时的颜色 */
 }
+.icon {
+  display: inline-block; /* 确保可以应用动画 */
+  transition:
+    height 0.2s,
+    box-shadow 0.2s,
+    transform 0.3s;
+}
+
+.icon:hover {
+  /*animation: rotate-icon 0.2s linear forwards; /* 应用动画 */
+  transform: scale(1.03);
+}
+
 .find_jx3_user {
   padding-top: 5%;
   padding-left: 1%;
@@ -363,7 +374,6 @@ export default {
   padding: 10px;
   width: 300px;
   height: 100px;
-  transition: color 0.3s ease;
 }
 .data {
   display: block;
@@ -374,7 +384,6 @@ export default {
   padding: 10px;
   width: 380px;
   height: 100px;
-  transition: color 0.3s ease;
 }
 .user_list {
   width: 400px;
@@ -389,12 +398,8 @@ export default {
   height: 575px;
   overflow: auto;
 }
-.btn_back {
-  width: 36px;
-  height: 36px;
-}
 .dynamite {
-  background-color: #fde9f1;
+  background: linear-gradient(220.55deg, #b7dcff 0%, #ffa4f6 100%);
   border: 5px solid #e3ffd6;
 }
 /*工具栏部分*/

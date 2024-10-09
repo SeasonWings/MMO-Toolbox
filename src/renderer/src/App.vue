@@ -3,6 +3,10 @@ import { CloseSquareOutlined, MinusSquareOutlined } from '@ant-design/icons-vue'
 
 export default {
   components: { CloseSquareOutlined, MinusSquareOutlined },
+  mounted() {
+    document.title = 'HoneyBToolbox'
+    this.$router.push('/menu')
+  },
   methods: {
     close() {
       console.log('close')
@@ -10,23 +14,19 @@ export default {
     },
     minimize() {
       window.electron.ipcRenderer.send('minimize_windows')
-    },
-  },
-  mounted() {
-    document.title = 'HoneyBToolbox'
-    this.$router.push('/menu')
+    }
   }
 }
 </script>
 
 <template>
-    <div>
-      <div class="top_bar">
-        <MinusSquareOutlined class="icon top_bar_tooltip" @click="minimize"></MinusSquareOutlined>
-        <CloseSquareOutlined class="icon top_bar_tooltip" @click="close"></CloseSquareOutlined>
-      </div>
-      <router-view/>
+  <div>
+    <div class="top_bar">
+      <MinusSquareOutlined class="icon top_bar_tooltip" @click="minimize"></MinusSquareOutlined>
+      <CloseSquareOutlined class="icon top_bar_tooltip" @click="close"></CloseSquareOutlined>
     </div>
+    <router-view />
+  </div>
 </template>
 
 <style>
@@ -47,7 +47,6 @@ export default {
   -webkit-app-region: no-drag;
 }
 
-
 :root {
   font-size: 15px;
 }
@@ -57,8 +56,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background-color: #ffe0f6;
-  background-image:
-    radial-gradient(closest-side, rgb(213, 255, 248), rgba(235, 105, 78, 0)),
+  background-image: radial-gradient(closest-side, rgb(213, 255, 248), rgba(235, 105, 78, 0)),
     radial-gradient(closest-side, rgb(255, 198, 217), rgba(243, 11, 164, 0)),
     radial-gradient(closest-side, rgb(248, 255, 239), rgba(254, 234, 131, 0)),
     radial-gradient(closest-side, rgb(206, 255, 249), rgba(170, 142, 245, 0)),
@@ -90,7 +88,8 @@ body::after {
 }
 
 @keyframes movement {
-  0%, 100% {
+  0%,
+  100% {
     background-size:
       130vmax 130vmax,
       80vmax 80vmax,
@@ -156,6 +155,6 @@ body::after {
 }
 img {
   -webkit-user-drag: none; /* Safari */
-  user-drag: none;         /* 非标准属性，可能不被所有浏览器支持 */
+  user-drag: none; /* 非标准属性，可能不被所有浏览器支持 */
 }
 </style>

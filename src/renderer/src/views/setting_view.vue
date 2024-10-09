@@ -1,30 +1,30 @@
 <script>
 export default {
-  data(){
+  data() {
     return {
       selectedKeys: ['1']
     }
   },
-  methods:{
-    Check_SelectedKeys(){
-      let router_end = window.location.href.split("/").pop()
-      if (router_end === 'jx3setting'){
-        this.selectedKeys = ['1']
-      }else if (router_end === 'ff14setting'){
-        this.selectedKeys = ['2']
-      }
-    }
-  },
   mounted() {
-    document.addEventListener("click", this.Check_SelectedKeys)
-    document.addEventListener("scroll", this.Check_SelectedKeys)
-    document.addEventListener("mouseover", this.Check_SelectedKeys)
+    document.addEventListener('click', this.Check_SelectedKeys)
+    document.addEventListener('scroll', this.Check_SelectedKeys)
+    document.addEventListener('mouseover', this.Check_SelectedKeys)
     this.Check_SelectedKeys()
   },
   unmounted() {
-    document.removeEventListener("click", this.Check_SelectedKeys)
-    document.removeEventListener("scroll", this.Check_SelectedKeys)
-    document.removeEventListener("mouseover", this.Check_SelectedKeys)
+    document.removeEventListener('click', this.Check_SelectedKeys)
+    document.removeEventListener('scroll', this.Check_SelectedKeys)
+    document.removeEventListener('mouseover', this.Check_SelectedKeys)
+  },
+  methods: {
+    Check_SelectedKeys() {
+      let router_end = window.location.href.split('/').pop()
+      if (router_end === 'jx3setting') {
+        this.selectedKeys = ['1']
+      } else if (router_end === 'ff14setting') {
+        this.selectedKeys = ['2']
+      }
+    }
   }
 }
 </script>
@@ -57,7 +57,6 @@ export default {
               </div>
             </a-menu-item>
           </router-link>
-
         </a-menu>
       </a-layout-header>
 
@@ -67,6 +66,18 @@ export default {
 </template>
 
 <style scoped>
+/*Vue动画*/
+/* 离开 */
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
+}
+/* 进入 */
+.slide-fade-enter-from {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
 .auto_shengchan {
   padding-top: 5%;
   padding-left: 1%;

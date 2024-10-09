@@ -17,7 +17,7 @@ const routes = [
       {
         path: 'ff14setting',
         component: () => import('../views/setting_view/ff14setting_view.vue')
-      },
+      }
     ]
   },
   {

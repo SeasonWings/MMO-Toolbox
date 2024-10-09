@@ -10,8 +10,7 @@ const configFilePath = path.join('config')
 async function readConfig() {
   try {
     const data = await fs.promises.readFile(configFilePath + '\\config.json', 'utf8')
-    const config = JSON.parse(data)
-    return config
+    return JSON.parse(data)
   } catch (err) {
     console.log(err.code)
     if (err.code === 'ENOENT') {
@@ -69,8 +68,7 @@ async function readbackuprConfig(userdata) {
   })
   try {
     const data = await fs.promises.readFile(configFilePath + '\\backup_config.json', 'utf8')
-    const config = JSON.parse(data)
-    return config
+    return JSON.parse(data)
   } catch (err) {
     console.log(err.code)
     if (err.code === 'ENOENT') {
@@ -96,12 +94,10 @@ async function readbackuprConfig(userdata) {
   }
 }
 
-
 async function readJson(name) {
   try {
     const data = await fs.promises.readFile(configFilePath + '\\' + name, 'utf8')
-    const config = JSON.parse(data)
-    return config
+    return JSON.parse(data)
   } catch (err) {
     console.log(err.code)
     if (err.code === 'ENOENT') {
@@ -121,7 +117,7 @@ async function readJson(name) {
             runningDelay: 0,
             loop: 0
           }
-        }else {
+        } else {
           initialConfig = {
             jx3_path: '',
             jx3_backup_path: ''
@@ -145,6 +141,7 @@ async function readJson(name) {
 /**
  * 写入数据到 config.json 文件
  * @param {Object} configObject 要写入的数据对象
+ * @param name
  * @returns {Promise<void>} 返回一个 Promise，表示写入操作完成
  */
 function writeJson(configObject, name) {
